@@ -167,14 +167,21 @@ let maskedRanges: Array<[number, number]> = [];
 function maskCodeRegions(body: string): string {
   maskedRanges = [];
 
-  // Fenced code blocks
+  // Fenced code blocks — collect first so inline code skips them
+  const fencedRanges: Array<[number, number]> = [];
   for (const match of body.matchAll(CODE_FENCE_RE)) {
-    maskedRanges.push([match.index!, match.index! + match[0].length]);
+    const range: [number, number] = [match.index!, match.index! + match[0].length];
+    fencedRanges.push(range);
+    maskedRanges.push(range);
   }
 
-  // Inline code
+  // Inline code — only outside fenced blocks
   for (const match of body.matchAll(INLINE_CODE_RE)) {
-    maskedRanges.push([match.index!, match.index! + match[0].length]);
+    const start = match.index!;
+    const inFence = fencedRanges.some(([fs, fe]) => start >= fs && start < fe);
+    if (!inFence) {
+      maskedRanges.push([start, start + match[0].length]);
+    }
   }
 
   return body;

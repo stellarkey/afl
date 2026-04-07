@@ -111,23 +111,31 @@ export class NodeStore {
       return { node, depth: 1 };
     }
 
-    // DEPTH 2+: expand strong references recursively
+    // DEPTH 2+: expand all references (frontmatter refs + body strong refs)
     const expanded = new Map<string, ReadResult>();
-    const strongRefs = node.references.filter((r) => r.kind === 'strong');
     let expandCount = 0;
 
-    for (const ref of strongRefs) {
-      if (ref.kind !== 'strong') continue;
-      if (expandCount >= maxExpand) break;
+    // Collect target IDs from both frontmatter refs and body strong references
+    const targetIds: string[] = [];
+    if (node.frontmatter.refs) {
+      for (const ref of node.frontmatter.refs) {
+        if (!targetIds.includes(ref)) targetIds.push(ref);
+      }
+    }
+    for (const ref of node.references) {
+      if (ref.kind === 'strong' && !targetIds.includes(ref.targetId)) {
+        targetIds.push(ref.targetId);
+      }
+    }
 
-      const targetId = ref.targetId;
+    for (const targetId of targetIds) {
+      if (expandCount >= maxExpand) break;
       if (!this.nodes.has(targetId)) continue;
       if (filterType) {
         const target = this.nodes.get(targetId)!;
         if (target.frontmatter.type !== filterType) continue;
       }
 
-      // Recurse with depth - 1, but guard against cycles
       if (!expanded.has(targetId)) {
         expanded.set(
           targetId,
