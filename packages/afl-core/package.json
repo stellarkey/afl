@@ -1,0 +1,30 @@
+{
+  "name": "@afl/core",
+  "version": "0.1.0",
+  "description": "AFL (Agent Filesystem Language) core parser and runtime",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": ["afl", "agent", "filesystem", "memory", "markdown"],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.1.0",
+    "@types/node": "^22.0.0"
+  },
+  "dependencies": {
+    "yaml": "^2.7.0"
+  }
+}

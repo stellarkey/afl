@@ -119,8 +119,8 @@ afl/
 ## Roadmap
 
 - [x] Phase 0: Research & concept validation
-- [ ] Phase 1: AFL-MD syntax specification finalized
-- [ ] Phase 2: Parser prototype (TypeScript)
+- [x] Phase 1: AFL-MD spec v1.0 + TypeScript parser (`@afl/core`) — 38 tests passing
+- [ ] Phase 2: Semantic query via embeddings
 - [ ] Phase 3: Self-evolution engine (consolidation daemon)
 - [ ] Phase 4: Integration with existing agent frameworks
 

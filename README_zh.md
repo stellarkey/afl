@@ -119,8 +119,8 @@ afl/
 ## 路线图
 
 - [x] Phase 0: 调研与概念验证
-- [ ] Phase 1: AFL-MD 语法规范定稿
-- [ ] Phase 2: 解析器原型 (TypeScript)
+- [x] Phase 1: AFL-MD 规范 v1.0 + TypeScript 解析器 (`@afl/core`) — 38 项测试通过
+- [ ] Phase 2: 基于嵌入向量的语义查询
 - [ ] Phase 3: 自演化引擎 (consolidation daemon)
 - [ ] Phase 4: 与现有 Agent 框架集成
 
